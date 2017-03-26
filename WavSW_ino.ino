@@ -5,7 +5,9 @@
 #include <TMRpcm.h>           //  also need to include this library...
  
 TMRpcm tmrpcm;   // create an object for use in this sketch
-
+/*
+	tem exemplo de uso do SD nos exemplos do arduino IDE
+*/
 void setup(){
   Serial.begin(9600);
   tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
