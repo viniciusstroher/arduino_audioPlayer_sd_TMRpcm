@@ -9,29 +9,21 @@ TMRpcm tmrpcm;   // create an object for use in this sketch
 	tem exemplo de uso do SD nos exemplos do arduino IDE
 */
 
-#include "ESP8266.h"
-
 #define SSID        "w3GET"
 #define PASSWORD    "minhavisita"
 
 //ARDUINO UNO
+#include "ESP8266.h"
 #include <SoftwareSerial.h>
-SoftwareSerial Serial1(3, 2);
-ESP8266 wifi(Serial1);
+
+SoftwareSerial mySerial(3, 2); /* RX:D3, TX:D2 */
+ESP8266 wifi(mySerial);
 
 void setup(){
-  Serial1.begin(115200);
+  mySerial.begin(115200); 
   Serial.begin(9600);
   
-  tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
- 
-  if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
-    Serial.println("NO SD DETECTED");
-  return;   // don't do anything more if not
-  }
-    // Serial.println("Play audio");
-    tmrpcm.volume(1);
-   // tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset
+
     Serial.begin(9600);
     Serial.print("setup begin\r\n");
     
@@ -71,10 +63,20 @@ void setup(){
     }
     
     Serial.print("setup end\r\n");
+
+      /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
+     
+      if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
+        Serial.println("NO SD DETECTED");
+      return;   // don't do anything more if not
+      }
+        // Serial.println("Play audio");
+        tmrpcm.volume(1);
+       // tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
 }
  
 void loop(){  
-     uint8_t buffer[128] = {0};
+    uint8_t buffer[128] = {0};
     uint8_t mux_id;
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
     if (len > 0) {
