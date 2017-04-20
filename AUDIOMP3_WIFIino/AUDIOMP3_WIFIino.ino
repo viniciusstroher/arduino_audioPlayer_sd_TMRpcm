@@ -14,11 +14,14 @@ TMRpcm tmrpcm;   // create an object for use in this sketch
 #define SSID        "w3GET"
 #define PASSWORD    "minhavisita"
 
+//ARDUINO UNO
+SoftwareSerial Serial1(3, 2);
 ESP8266 wifi(Serial1);
 
 void setup(){
   Serial1.begin(115200);
   Serial.begin(9600);
+  
   tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
  
   if (!SD.begin(SD_ChipSelectPin)) {  // see if the card is present and can be initialized:
