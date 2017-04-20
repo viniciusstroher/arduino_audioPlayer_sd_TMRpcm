@@ -15,6 +15,7 @@ TMRpcm tmrpcm;   // create an object for use in this sketch
 #define PASSWORD    "minhavisita"
 
 //ARDUINO UNO
+#include <SoftwareSerial.h>
 SoftwareSerial Serial1(3, 2);
 ESP8266 wifi(Serial1);
 
