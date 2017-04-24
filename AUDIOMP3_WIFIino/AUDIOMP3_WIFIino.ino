@@ -26,6 +26,7 @@ void setup(){
    Serial.println(wifi.getLocalIP().c_str());    
  }
 
+ wifi.enableMUX();
  wifi.startTCPServer(8090);
  wifi.setTCPServerTimeout(10);
     
