@@ -16,19 +16,20 @@ TMRpcm tmrpcm;   // create an object for use in this sketch
 #include "ESP8266.h"
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(3, 2); /* RX:D3, TX:D2 */
-ESP8266 wifi(mySerial,115200);
+SoftwareSerial mySerial(2, 3); /* RX:D3, TX:D2 */
+ESP8266 wifi(mySerial);
 
 void setup(){ 
-  
+  //mySerial.begin(9600);
   Serial.begin(9600);
   Serial.print("setup begin\r\n");
-    
+  
+  /* 
   if (wifi.setOprToStationSoftAP()) {
        Serial.print("to station + softap ok\r\n");
   } else {
         Serial.print("to station + softap err\r\n");
-  }
+  }*/
  
     if (wifi.joinAP(SSID, PASSWORD)) {
         Serial.print("Join AP success\r\n");
