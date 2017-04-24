@@ -63,39 +63,30 @@ void setup(){
 void loop(){  
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
     if (len > 0) {
-        //Serial.print("Status:[");
-        //Serial.print(wifi.getIPStatus().c_str());
-        //Serial.println("]");
-        
-        //Serial.print("Received from :");
-        //Serial.print(mux_id);
-        //Serial.print("[");
-        //for(uint32_t i = 0; i < len; i++) {
-        //    Serial.print((char)buffer[i]);
-        //}
-        //Serial.print("]\r\n");
+
+        if (myFile) {
+          Serial.print("Gravando Arquivo - INICIANDO");
+          
+          myFile.println(buffer);
+          myFile.close();
+          
+          Serial.println("Gravando Arquivo - OK");
+        }
         
         if(wifi.send(mux_id, buffer, len)) {
-            Serial.print("send back ok\r\n");
+            Serial.println("send back - ok");
         } else {
-            Serial.print("send back err\r\n");
+            Serial.println("send back - err");
         }
         
         if (wifi.releaseTCP(mux_id)) {
-            Serial.print("release tcp ");
-            Serial.print(mux_id);
-            Serial.println(" ok");
+            Serial.println("release tcp - ok");
         } else {
-            Serial.print("release tcp");
-            Serial.print(mux_id);
-            Serial.println(" err");
+            Serial.println("release tcp - err");
         }
-        
-        //Serial.print("Status:[");
-        //Serial.print(wifi.getIPStatus().c_str());
-        //Serial.println("]");
+       
     }
 } 
