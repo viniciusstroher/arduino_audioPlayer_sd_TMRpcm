@@ -53,13 +53,10 @@ void setup(){
     Serial.print("set tcp server timout err\r\n");
  }
     
+ /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
+ tmrpcm.volume(1);
+ tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
  
-      /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
-     
-      
-        // Serial.println("Play audio");
-        tmrpcm.volume(1);
-       // tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
  Serial.print("setup end\r\n");
 }
  
@@ -67,18 +64,19 @@ void loop(){
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+    
     if (len > 0) {
-        Serial.print("Status:[");
-        Serial.print(wifi.getIPStatus().c_str());
-        Serial.println("]");
+        //Serial.print("Status:[");
+        //Serial.print(wifi.getIPStatus().c_str());
+        //Serial.println("]");
         
-        Serial.print("Received from :");
-        Serial.print(mux_id);
-        Serial.print("[");
-        for(uint32_t i = 0; i < len; i++) {
-            Serial.print((char)buffer[i]);
-        }
-        Serial.print("]\r\n");
+        //Serial.print("Received from :");
+        //Serial.print(mux_id);
+        //Serial.print("[");
+        //for(uint32_t i = 0; i < len; i++) {
+        //    Serial.print((char)buffer[i]);
+        //}
+        //Serial.print("]\r\n");
         
         if(wifi.send(mux_id, buffer, len)) {
             Serial.print("send back ok\r\n");
@@ -96,8 +94,8 @@ void loop(){
             Serial.println(" err");
         }
         
-        Serial.print("Status:[");
-        Serial.print(wifi.getIPStatus().c_str());
-        Serial.println("]");
+        //Serial.print("Status:[");
+        //Serial.print(wifi.getIPStatus().c_str());
+        //Serial.println("]");
     }
 } 
