@@ -19,14 +19,14 @@ File myFile;
 int audios = 1;
 
 void setup(){ 
-  
- Serial.begin(9600);
  delay(1000);
+ Serial.begin(9600);
+ 
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
  }
- delay(1000);
+
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
  }
