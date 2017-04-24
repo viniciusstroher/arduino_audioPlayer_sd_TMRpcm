@@ -30,7 +30,9 @@ void setup(){
    wifi.enableMUX();
    wifi.startTCPServer(8090);
    wifi.setTCPServerTimeout(10);
-
+   
+   delay(20);
+   
    if (!SD.begin(SD_ChipSelectPin)) {
      Serial.println("SD CARD ERROR !");
      return;
