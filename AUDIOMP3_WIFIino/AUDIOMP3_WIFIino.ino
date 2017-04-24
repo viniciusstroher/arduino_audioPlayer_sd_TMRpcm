@@ -68,9 +68,12 @@ void loop(){
         myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
           Serial.print("Gravando Arquivo - INICIANDO");
-          
-          myFile.println(buffer);
+          for(uint32_t i = 0; i < len; i++) {
+           myFile.write(buffer[i]);
+          }
+
           myFile.close();
+          audios +=1;
           
           Serial.println("Gravando Arquivo - OK");
         }
@@ -89,3 +92,6 @@ void loop(){
        
     }
 } 
+       
+
+      
