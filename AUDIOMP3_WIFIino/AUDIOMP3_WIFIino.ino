@@ -18,6 +18,14 @@ ESP8266 wifi(mySerial);
 File myFile;
 int audios = 1;
 
+uint8_t buffer[128] = {0};
+uint8_t mux_id = 0;
+
+String response_ok       = "OK";
+char* response_ok_buffer = new char[response_ok.length()+1];
+
+
+
 void setup(){ 
   
  Serial.begin(9600);
@@ -36,18 +44,12 @@ void setup(){
  /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
  tmrpcm.volume(1);
  tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
+ strncpy(response_ok_buffer, response_ok.c_str(), response_ok.length()+1);
  
  Serial.println("setup ok!");
 }
 
-uint8_t buffer[128] = {0};
-uint8_t response_ok_buffer_encoded[128] = {0};
-uint8_t mux_id = 0;
 
-
-String response_ok       = "OK";
-char* response_ok_buffer = new char[response_ok.length()+1];
-strncpy(response_ok_buffer, response_ok.c_str(), response_ok.length()+1);
 
 void loop(){  
     
