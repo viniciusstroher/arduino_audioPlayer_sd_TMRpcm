@@ -28,29 +28,25 @@ void setup(){
  }
  
  if(wifi.joinAP(SSID, PASSWORD)){
-   Serial.print("Join AP success\r\n");
-   Serial.print("IP: ");
-   Serial.println(wifi.getLocalIP().c_str());    
- }else{
-   Serial.print("Join AP failure\r\n");
+   Serial.println("IP: "+wifi.getLocalIP().c_str());    
  }
-    
+ 
  if (wifi.enableMUX()) {
-   Serial.print("multiple ok\r\n");
+   Serial.println("multiple - ok");
  } else {
-   Serial.print("multiple err\r\n");
+   Serial.println("multiple - err");
  }
     
  if (wifi.startTCPServer(8090)) {
-    Serial.print("start tcp server ok\r\n");
+    Serial.println("start tcp server - ok");
  } else {
-    Serial.print("start tcp server err\r\n");
+    Serial.println("start tcp server - err");
  }
 
  if (wifi.setTCPServerTimeout(10)) { 
-    Serial.print("set tcp server timout 10 seconds\r\n");
+    Serial.println("set tcp server timout 10 seconds - ok");
  } else {
-    Serial.print("set tcp server timout err\r\n");
+    Serial.println("set tcp server timout err - ok");
  }
     
  /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
