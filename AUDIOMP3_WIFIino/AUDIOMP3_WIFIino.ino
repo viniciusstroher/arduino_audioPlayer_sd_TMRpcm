@@ -22,7 +22,15 @@ int audios = 1;
 void setup(){ 
 
  Serial.begin(9600);
- 
+ while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+
+ if (!SD.begin(SD_ChipSelectPin)) {
+   Serial.println("SD CARD ERROR !");
+   return;
+ }
+  
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    
@@ -34,10 +42,7 @@ void setup(){
    
  }
  
- if (!SD.begin(SD_ChipSelectPin)) {
-   Serial.println("SD CARD ERROR !");
-   return;
- }
+ 
   
  Serial.println("setup ok!");
 }
@@ -65,5 +70,6 @@ void loop(){
         wifi.send(mux_id, "ENVIADO", sizeof(10));
     }
     
-    wifi.releaseTCP(mux_id)
+    wifi.releaseTCP(mux_id);
 }
+
