@@ -32,16 +32,16 @@ void setup(){
    wifi.setTCPServerTimeout(10);
    
  }
- 
+ if (!SD.begin(SD_ChipSelectPin)) {
+   Serial.println("SD CARD ERROR !");
+   return;
+  }
  Serial.println("setup ok!");
 }
 
 void loop(){  
     
-    if (!SD.begin(SD_ChipSelectPin)) {
-     Serial.println("SD CARD ERROR !");
-     return;
-    }
+    
     
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
