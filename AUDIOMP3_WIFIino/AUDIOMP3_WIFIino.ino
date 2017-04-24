@@ -31,20 +31,18 @@ void setup(){
    wifi.startTCPServer(8090);
    wifi.setTCPServerTimeout(10);
    
-   delay(20);
-   
-   if (!SD.begin(SD_ChipSelectPin)) {
-     Serial.println("SD CARD ERROR !");
-     return;
-   }
-   
  }
  
  Serial.println("setup ok!");
 }
 
 void loop(){  
-   
+    
+    if (!SD.begin(SD_ChipSelectPin)) {
+     Serial.println("SD CARD ERROR !");
+     return;
+    }
+    
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
     if (len > 0) {
