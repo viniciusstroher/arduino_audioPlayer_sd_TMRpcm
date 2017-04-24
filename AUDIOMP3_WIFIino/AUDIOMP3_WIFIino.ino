@@ -30,9 +30,6 @@ void setup(){
  wifi.startTCPServer(8090);
  wifi.setTCPServerTimeout(10);
     
- /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
- tmrpcm.volume(1);
- tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
@@ -46,6 +43,7 @@ void loop(){
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
     if (len > 0) {
+        
         myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
           Serial.print("Gravando Arquivo");
@@ -57,7 +55,9 @@ void loop(){
           myFile.close();
           audios +=1;
           
-          
+           /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
+           tmrpcm.volume(1);
+           tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
         }
     }
     
