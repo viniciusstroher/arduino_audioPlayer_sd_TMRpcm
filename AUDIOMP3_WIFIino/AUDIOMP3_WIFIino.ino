@@ -19,7 +19,7 @@ File myFile;
 int audios = 1;
 
 void setup(){ 
- delay(1000);
+ delay(2000);
  Serial.begin(9600);
  
  if (!SD.begin(SD_ChipSelectPin)) {
