@@ -14,11 +14,7 @@ ESP8266 wifi(mySerial);
 
 uint8_t buffer[128] = {0};
 uint8_t mux_id = 0;
-
-File myFile;
 int audios = 1;
-
-void(* resetFunc) (void) = 0; 
 
 void setup(){ 
 
@@ -35,9 +31,10 @@ void setup(){
    
  }
  
+ digitalWrite(10, HIGH); 
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
-   resetFunc();
+   return;
  }
   
  Serial.println("setup ok!");
@@ -51,7 +48,7 @@ void loop(){
     
     if (len > 0) {
         
-        myFile = SD.open(audios+".wav", FILE_WRITE);
+        File myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
           Serial.print("Gravando Arquivo");
          
@@ -67,14 +64,16 @@ void loop(){
            tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
         }
     }
-    
     wifi.send(mux_id, "ENVIADO", sizeof(10));
 
     if (wifi.releaseTCP(mux_id)) {
-      Serial.println("release tcp - ok");
+        Serial.println("release tcp - ok");
     } else {
-        Serial.println("release tcp - err");
+          Serial.println("release tcp - err");
     }
+    
+    
+    
 } 
        
 
