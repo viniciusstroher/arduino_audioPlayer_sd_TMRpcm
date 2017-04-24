@@ -28,7 +28,7 @@ void setup(){
  }
  
  if(wifi.joinAP(SSID, PASSWORD)){
-   Serial.println("IP: "+wifi.getLocalIP().c_str());    
+   Serial.println(wifi.getLocalIP().c_str());    
  }
  
  if (wifi.enableMUX()) {
@@ -55,14 +55,15 @@ void setup(){
  
  Serial.print("setup end\r\n");
 }
- 
+int audios = 1;
+
 void loop(){  
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
     if (len > 0) {
-
+        myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
           Serial.print("Gravando Arquivo - INICIANDO");
           
