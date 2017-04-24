@@ -61,15 +61,17 @@ void loop(){
           }
 
           myFile.close();
+          wifi.send(mux_id, "ENVIADO_SALVO", sizeof(17));
           audios +=1;
           
            /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
            tmrpcm.volume(1);
            tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
         }
-        wifi.send(mux_id, "ENVIADO", sizeof(10));
+        
+    }else{
+      wifi.send(mux_id, "ENVIADO", sizeof(10));
     }
-    
     wifi.releaseTCP(mux_id);
 }
 
