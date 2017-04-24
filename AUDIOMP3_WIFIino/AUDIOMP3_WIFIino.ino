@@ -62,12 +62,8 @@ void loop(){
            tmrpcm.volume(1);
            tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
         }
+        wifi.send(mux_id, "ENVIADO", sizeof(10));
     }
-    wifi.send(mux_id, "ENVIADO", sizeof(10));
-
-    if (wifi.releaseTCP(mux_id)) {
-        Serial.println("release tcp - ok");
-    } else {
-          Serial.println("release tcp - err");
-    }
+    
+    wifi.releaseTCP(mux_id)
 }
