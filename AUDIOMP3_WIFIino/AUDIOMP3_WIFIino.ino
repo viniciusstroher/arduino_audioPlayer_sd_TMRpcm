@@ -56,14 +56,16 @@ void loop(){
           myFile.close();
           audios +=1;
           
-          wifi.send(mux_id, "ENVIADO_COM_SUCESSO", sizeof(20));
-
-          if (wifi.releaseTCP(mux_id)) {
-            Serial.println("release tcp - ok");
-          } else {
-              Serial.println("release tcp - err");
-          }
+          
         }
+    }
+    
+    wifi.send(mux_id, "ENVIADO", sizeof(10));
+
+    if (wifi.releaseTCP(mux_id)) {
+      Serial.println("release tcp - ok");
+    } else {
+        Serial.println("release tcp - err");
     }
 } 
        
