@@ -21,18 +21,21 @@ int audios = 1;
 void setup(){ 
 
  Serial.begin(9600);
-
+ 
+ wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
+   
    Serial.println(wifi.getLocalIP().c_str());    
- }
+  
+   wifi.enableMUX();
+   wifi.startTCPServer(8090);
+   wifi.setTCPServerTimeout(10);
 
- wifi.enableMUX();
- wifi.startTCPServer(8090);
- wifi.setTCPServerTimeout(10);
-    
- if (!SD.begin(SD_ChipSelectPin)) {
-   Serial.println("SD CARD ERROR !");
-   return;
+   if (!SD.begin(SD_ChipSelectPin)) {
+     Serial.println("SD CARD ERROR !");
+     return;
+   }
+   
  }
  
  Serial.println("setup ok!");
