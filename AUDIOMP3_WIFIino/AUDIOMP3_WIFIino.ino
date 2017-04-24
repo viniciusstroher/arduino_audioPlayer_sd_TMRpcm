@@ -6,8 +6,11 @@
 
 //ARDUINO UNO
 #define SD_ChipSelectPin 4 
-#define SSID        "w3GET"
-#define PASSWORD    "minhavisita"
+//#define SSID        "w3GET"
+//#define PASSWORD    "minhavisita"
+
+#define SSID        "Venizao"
+#define PASSWORD    "venizao123"
 
 SoftwareSerial mySerial(2, 3); /* RX:D3, TX:D2 */
 ESP8266 wifi(mySerial);
@@ -40,11 +43,8 @@ void setup(){
 }
 
 void loop(){  
-    
-    
-    
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
-    
+
+    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);    
     if (len > 0) {
         
         File myFile = SD.open(audios+".wav", FILE_WRITE);
@@ -70,10 +70,4 @@ void loop(){
     } else {
           Serial.println("release tcp - err");
     }
-    
-    
-    
-} 
-       
-
-      
+}
