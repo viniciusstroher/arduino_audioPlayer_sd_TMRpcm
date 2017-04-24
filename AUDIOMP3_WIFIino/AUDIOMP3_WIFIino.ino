@@ -37,19 +37,29 @@ void setup(){
  tmrpcm.volume(1);
  tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
  
- Serial.println("setup end");
+ Serial.println("setup ok!");
 }
 
+uint8_t buffer[128] = {0};
+uint8_t response_ok_buffer_encoded[128] = {0};
+uint8_t mux_id = 0;
+
+
+String response_ok       = "OK";
+char* response_ok_buffer = new char[response_ok.length()+1];
+strncpy(response_ok_buffer, response_ok.c_str(), response_ok.length()+1);
+
 void loop(){  
-    uint8_t buffer[128] = {0};
-    uint8_t mux_id = 0;
+    
+   
     uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
     
     if (len > 0) {
         myFile = SD.open(audios+".wav", FILE_WRITE);
         
         if (myFile) {
-          Serial.print("Gravando Arquivo - INICIANDO");
+          Serial.print("Gravando Arquivo");
+         
           for(uint32_t i = 0; i < len; i++) {
            myFile.write(buffer[i]); 
           }
@@ -57,21 +67,16 @@ void loop(){
           myFile.close();
           audios +=1;
           
-          Serial.println("Gravando Arquivo - OK");
-        }
-        
-        if(wifi.send(mux_id, buffer, len)) {
-            Serial.println("send back - ok");
-        } else {
-            Serial.println("send back - err");
-        }
-        
-        if (wifi.releaseTCP(mux_id)) {
+          wifi.send(mux_id, response_ok_buffer, sizeof(response_ok_buffer));
+
+          if (wifi.releaseTCP(mux_id)) {
             Serial.println("release tcp - ok");
-        } else {
-            Serial.println("release tcp - err");
+          } else {
+              Serial.println("release tcp - err");
+          }
+          
         }
-       
+
     }
 } 
        

@@ -1,9 +1,6 @@
-
 var net = require('net');
-
 var client = new net.Socket();
 var fs = require("fs");
-
 
 client.connect(8090, '192.168.0.43', function() {
 	console.log('Connected');
@@ -12,12 +9,9 @@ client.connect(8090, '192.168.0.43', function() {
 	    if (err) {
 	    	throw err;
 	    }
-
 	    console.log('Enviando audio.',data);
 	    client.write(data);
 	});
-
-	
 });
 
 client.on('data', function(data) {
