@@ -21,11 +21,12 @@ int audios = 1;
 void setup(){ 
   
  Serial.begin(9600);
+ delay(1000);
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
  }
- 
+ delay(1000);
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
  }
@@ -42,7 +43,7 @@ void setup(){
 
 void loop(){  
    
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);
     
     if (len > 0) {
         myFile = SD.open(audios+".wav", FILE_WRITE);
@@ -50,14 +51,13 @@ void loop(){
           Serial.print("Gravando Arquivo");
          
           for(uint32_t i = 0; i < len; i++) {
-           Serial.println(buffer[i]);
            myFile.write(buffer[i]); 
           }
 
           myFile.close();
           audios +=1;
           
-          //wifi.send(mux_id, "S", sizeof(1));
+          wifi.send(mux_id, "ENVIADO_COM_SUCESSO", sizeof(20));
 
           if (wifi.releaseTCP(mux_id)) {
             Serial.println("release tcp - ok");
