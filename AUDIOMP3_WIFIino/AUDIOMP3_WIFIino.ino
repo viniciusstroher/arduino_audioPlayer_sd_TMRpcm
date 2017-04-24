@@ -17,6 +17,9 @@ TMRpcm tmrpcm;                       // create an object for use in this sketch
 SoftwareSerial mySerial(2, 3); /* RX:D3, TX:D2 */
 ESP8266 wifi(mySerial);
 
+File myFile;
+int audios = 1;
+
 void setup(){ 
   
  Serial.begin(9600);
@@ -55,7 +58,6 @@ void setup(){
  
  Serial.print("setup end\r\n");
 }
-int audios = 1;
 
 void loop(){  
     uint8_t buffer[128] = {0};
