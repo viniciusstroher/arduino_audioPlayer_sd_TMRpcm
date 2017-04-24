@@ -19,13 +19,8 @@ File myFile;
 int audios = 1;
 
 void setup(){ 
- delay(2000);
+
  Serial.begin(9600);
- 
- if (!SD.begin(SD_ChipSelectPin)) {
-   Serial.println("SD CARD ERROR !");
-   return;
- }
 
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
@@ -37,6 +32,10 @@ void setup(){
  /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
  tmrpcm.volume(1);
  tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
+ if (!SD.begin(SD_ChipSelectPin)) {
+   Serial.println("SD CARD ERROR !");
+   return;
+ }
  
  Serial.println("setup ok!");
 }
