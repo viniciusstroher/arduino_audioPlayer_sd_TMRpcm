@@ -31,7 +31,7 @@ void setup(){
    
  }
  
- digitalWrite(10, HIGH); 
+ digitalWrite(SD_ChipSelectPin, HIGH); 
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
