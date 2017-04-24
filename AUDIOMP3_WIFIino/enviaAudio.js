@@ -12,7 +12,7 @@ client.connect(8090, '192.168.0.43', function() {
 	    if (err) {
 	    	throw err;
 	    }
-	    
+
 	    console.log('Enviando audio.',data);
 	    client.write(data);
 	});
