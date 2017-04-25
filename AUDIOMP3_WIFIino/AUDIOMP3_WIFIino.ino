@@ -49,7 +49,7 @@ void loop(){
       char* params = "HOST CONNECT";
       Serial.println(params);
       
-      uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 10000);
+      uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
       if(len >0){
         
         String str = (char*)buffer; 
