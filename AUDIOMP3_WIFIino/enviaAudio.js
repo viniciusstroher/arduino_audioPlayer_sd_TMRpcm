@@ -21,18 +21,21 @@ function toArrayBuffer(buf) {
 }
 
 function startServer(){
+	
 	var arrayBuffer 	 = null;
-	var arraySlicePiece  = 2048;
+	var arraySlicePiece  = 4056;
 	var pointerSlice 	 = 0;
 	var piecesOFChunck 	 = 0;
+	var piecesIncrement  = 0;
+	var start 			 = false;
 
 	fs.readFile("1.wav", function (err, data) {
 	    if (err) {
 	    	throw err;
 	    }
 
-	    arrayBuffer = data;
-	    piecesOFChunck = Math.ceil(arrayBuffer.length/arraySlicePiece);
+	    arrayBuffer 	= data;
+	    piecesOFChunck  = Math.ceil(arrayBuffer.length/arraySlicePiece);
 	});
 
 	try{
@@ -50,9 +53,25 @@ function startServer(){
 				
 				//var i = 0;
 				//var sliceChunck = arrayBuffer.slice(i*arraySlicePiece,(i*arraySlicePiece)+arraySlicePiece);
-				
-				socket.write('chunks:'+parseInt(piecesOFChunck));
-				piecesOFChunck = parseInt(piecesOFChunck-1);
+				if(!start){
+					start = true;
+					socket.write('start');
+				}else if(start && piecesOFChunck > 0){
+					
+					//socket.write('chunks:'+parseInt(piecesOFChunck));
+					var sliceChunck = arrayBuffer.slice(piecesIncrement*arraySlicePiece,(piecesIncrement*arraySlicePiece)+arraySlicePiece);
+					socket.write(sliceChunck);
+
+					piecesOFChunck   = parseInt(piecesOFChunck-1);
+					piecesIncrement +=1;
+
+				}else{
+					console.log('PLAY AUDIO');
+					
+					socket.write('stop');
+					start = false;
+
+				}
 
 				socket.on('data', function (data){
 					console.log('Data In: ',data.toString("utf8"));

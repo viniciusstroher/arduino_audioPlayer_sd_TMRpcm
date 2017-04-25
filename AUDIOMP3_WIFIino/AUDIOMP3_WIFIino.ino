@@ -53,10 +53,21 @@ void loop(){
    
       if(len >0){
         String str = (char*)buffer;
+        if(str.equals("start"){
+          Serial.println("START RECORD AUDIO");
+        }else if(str.equals("stop"){
+          Serial.println("STOP RECORD AUDIO");
+        }else{
+          for(uint32_t i = 0; i < len; i++) {
+            Serial.print((char)buffer[i]);
+          }
+          Serial.println();
+        }
+        /*
         
         String paramName = str.substring(0,str.indexOf(":"));
         Serial.println(paramName);
-        if(paramName.equals("chunks")){
+        if(paramName.equals("start")){
           String paramValue = str.substring(str.indexOf(":")+1,-1);
           chunks = paramValue.toInt();
           
@@ -68,7 +79,7 @@ void loop(){
           
         }
         
-      }
+      }*/
     }
    
     if(wifi.send(mux_id,buffer, sizeof(buffer))){
