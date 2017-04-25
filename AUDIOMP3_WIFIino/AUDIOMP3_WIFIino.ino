@@ -55,7 +55,7 @@ void loop(){
         String str = (char*)buffer;
         if(str.equals("start")){
           Serial.println("START RECORD AUDIO");
-        }else if(str.equals("stop"){
+        }else if(str.equals("stop")){
           Serial.println("STOP RECORD AUDIO");
         }else{
           for(uint32_t i = 0; i < len; i++) {
