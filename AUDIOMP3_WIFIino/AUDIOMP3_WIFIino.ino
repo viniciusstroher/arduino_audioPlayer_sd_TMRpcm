@@ -51,9 +51,10 @@ void loop(){
       Serial.println(params);
       
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 10000);
-   
       if(len >0){
+        
         String str = (char*)buffer;
+        Serial.println("BUFFER: "+str.c_str());
         
         if(str.equals("start")){  
           char* params = "START";
