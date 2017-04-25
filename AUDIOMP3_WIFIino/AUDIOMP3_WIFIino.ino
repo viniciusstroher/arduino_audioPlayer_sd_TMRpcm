@@ -55,20 +55,20 @@ void loop(){
         String str = (char*)buffer;
         if(str.equals("start")){
          
-          String startString = "START RECORD AUDIO";
+          String startString = "START";
           Serial.println(startString);
 
           char* params = new char[startString.length()+1];
-          strncpy(params, startString.c_str(), startString.length()+1);
+          strncpy(params, startString, startString.length()+1);
           wifi.send(mux_id,params, sizeof(params));
           
         }else if(str.equals("stop")){
          
-          String stopString = "STOP RECORD AUDIO";
+          String stopString = "STOP";
           Serial.println(stopString);
          
           char* params = new char[stopString.length()+1];
-          strncpy(params, stopString.c_str(), stopString.length()+1);
+          strncpy(params, stopString, stopString.length()+1);
           wifi.send(mux_id,params, sizeof(params));
           
         }else{
@@ -76,11 +76,11 @@ void loop(){
             Serial.print((char)buffer[i]);
           }
           
-          String sendChunk = "CHUNK ENVIADO";
+          String sendChunk = "CHUNK";
           Serial.println(sendChunk);
          
           char* params = new char[sendChunk.length()+1];
-          strncpy(params, sendChunk.c_str(), sendChunk.length()+1);
+          strncpy(params, sendChunk, sendChunk.length()+1);
           wifi.send(mux_id,params, sizeof(params));
       
         }
