@@ -26,7 +26,7 @@ void setup(){
  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
- wifi.restart();
+ 
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
@@ -110,7 +110,6 @@ void loop(){
     if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }else{
-       wifi.restart(); 
        resetFunc();
        Serial.println("FAIL released tcp");
     }
