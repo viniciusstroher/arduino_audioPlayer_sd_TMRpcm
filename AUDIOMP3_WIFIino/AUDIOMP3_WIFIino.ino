@@ -55,8 +55,6 @@ void loop(){
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
     
-    wifi.restart(); 
-    
     if (wifi.createTCP(mux_id, HOST_NAME, HOST_PORT)) {
       Serial.print("HOST CONNECT");
       uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
@@ -83,7 +81,6 @@ void loop(){
       Serial.println("OK released tcp");
     }else{
        Serial.println("FAIL released tcp");
-       resetFunc();
     }
 }
 
