@@ -35,35 +35,50 @@ void setup(){
    Serial.println(wifi.getLocalIP().c_str());    
  }
  
- if(wifi.disableMUX()){
-   Serial.println("Mux desabilitado");    
+ if(wifi.enableMUX()){
+   Serial.println("Mux habilitado");    
  }
  
 }
-
+int chunks = -1;
 void loop(){  
+   
     uint8_t buffer[128] = {0};
+    static uint8_t mux_id = 0;
     
-    if (wifi.createTCP(HOST_NAME, HOST_PORT)) {
+    if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
       
       Serial.println("HOST CONNECT");
-      uint32_t len  = wifi.recv(buffer, sizeof(buffer), 10000);
-      
+      uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 10000);
+   
       if(len >0){
-         Serial.println("Recebendo audio");
-         for(uint32_t i = 0; i < len; i++) {
-           Serial.write((char)buffer[i]); 
+        String str = (char*)buffer;
+        
+        String paramName = str.substring(0,str.indexOf(":"));
+        Serial.println(paramName);
+        if(paramName.equals("chunks")){
+          String paramValue = str.substring(str.indexOf(":")+1,-1);
+          chunks = paramValue.toInt();
+          
+          if(chunks == 0){
+            
+          }else{
+          
           }
-         Serial.println();
-         
-         
+          
+        }
+        
       }
     }
+   
+    if(wifi.send(mux_id,buffer, sizeof(buffer))){
+      Serial.println("Enviando Status");
+    }
     
-    if(wifi.releaseTCP()){ 
+    if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }
 
-    delay(5000);
+    //delay(5000);
 }
 
