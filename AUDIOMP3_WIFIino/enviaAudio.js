@@ -4,7 +4,7 @@ var fs = require("fs");
 
 client.connect(8090, '192.168.0.43', function() {
 	console.log('Connected');
-	client.write('teste');
+	client.write('12222');
 
 	/*fs.readFile("1.wav", function (err, data) {
 	    if (err) {
@@ -16,7 +16,7 @@ client.connect(8090, '192.168.0.43', function() {
 });
 
 client.on('data', function(data) {
-	console.log('Received: ' + data);
+	console.log('Received: ' + data.toString('utf8'));
 });
 
 client.on('close', function() {

@@ -17,27 +17,30 @@ ESP8266 wifi(mySerial);
 
 int audios = 1;
 
-void setup(){ 
+void(* resetFunc) (void) = 0; 
 
+void setup(){ 
+ mySerial.begin(9600);
  Serial.begin(9600);
  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-
-  
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
-   
    Serial.println(wifi.getLocalIP().c_str());    
-
-   
  }
  
- wifi.enableMUX();
+ if(wifi.enableMUX()){
+   Serial.println("Mux on");    
+ }else{
+    Serial.println("Mux off");    
+ }
+ 
+ 
  wifi.startTCPServer(8090);
  wifi.setTCPServerTimeout(10);
- 
+
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
@@ -46,12 +49,13 @@ void setup(){
  Serial.println("setup ok!");
 }
 
+
 void loop(){  
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
     
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);   
-    Serial.println(len); 
+    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+   
     if (len > 0) {
         Serial.println("RECEIVE FROM SERVER");
         
@@ -73,7 +77,17 @@ void loop(){
         
     }
     
-    wifi.send(mux_id, buffer, sizeof(buffer));
-    wifi.releaseTCP(mux_id);
+    if(wifi.send(mux_id, buffer, len)){
+      Serial.println("OK send");
+    }else{
+      Serial.println("FAIL send");
+    }
+     
+    if(wifi.releaseTCP(mux_id)){
+      Serial.println("OK released tcp");
+    }else{
+       Serial.println("FAIL released tcp");
+       wifi.restart();
+    }
 }
 
