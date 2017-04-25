@@ -65,7 +65,7 @@ void loop(){
         }else if(str.equals("stop")){
          
           String stopString = "STOP RECORD AUDIO";
-          Serial.println(startString);
+          Serial.println(stopString);
          
           char* params = new char[stopString.length()+1];
           strncpy(params, stopString.c_str(), stopString.length()+1);
