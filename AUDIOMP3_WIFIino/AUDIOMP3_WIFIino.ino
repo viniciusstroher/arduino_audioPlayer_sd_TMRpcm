@@ -6,81 +6,62 @@
 
 //ARDUINO UNO
 #define SD_ChipSelectPin 4 
-//#define SSID        "w3GET"
-//#define PASSWORD    "minhavisita"
+#define SSID        "w3GET"
+#define PASSWORD    "minhavisita"
 
-#define SSID        "Venizao"
-#define PASSWORD    "venizao123"
+//#define SSID        "Venizao"
+//#define PASSWORD    "venizao123"
 
-SoftwareSerial mySerial(2, 3); /* RX:D3, TX:D2 */
+#define HOST_NAME   "192.168.0.56"
+#define HOST_PORT   8090
+
+SoftwareSerial mySerial(3, 2); /* RX:D3, TX:D2 */
 ESP8266 wifi(mySerial);
 
-int audios = 1;
-
-void(* resetFunc) (void) = 0; 
-
 void setup(){ 
- mySerial.begin(9600);
- Serial.begin(9600);
- 
- while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-  
- wifi.leaveAP();
 
- if(wifi.joinAP(SSID, PASSWORD)){
-   Serial.println(wifi.getLocalIP().c_str());    
- }
- 
- if(wifi.enableMUX()){
-   Serial.println("Mux on");    
- }else{
-    Serial.println("Mux off");    
- }
+ Serial.begin(9600);
 
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
    return;
  }
-  
- Serial.println("setup ok!");
+ 
+ if(wifi.setOprToStation()){
+   Serial.println("Setando cliente wifi");
+ }
+ 
+ if(wifi.joinAP(SSID, PASSWORD)){
+   Serial.println(wifi.getLocalIP().c_str());    
+ }
+ 
+ if(wifi.disableMUX()){
+   Serial.println("Mux desabilitado");    
+ }
+ 
 }
-
-static uint8_t mux_id = 0;
-#define HOST_NAME   "192.168.0.56"
-#define HOST_PORT   (8090)
 
 void loop(){  
     uint8_t buffer[128] = {0};
-    uint8_t mux_id;
     
-    if (wifi.createTCP(mux_id, HOST_NAME, HOST_PORT)) {
-      Serial.print("HOST CONNECT");
-      uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+    if (wifi.createTCP(HOST_NAME, HOST_PORT)) {
+      
+      Serial.println("HOST CONNECT");
+      uint32_t len  = wifi.recv(buffer, sizeof(buffer), 10000);
+      
       if(len >0){
          /*for(uint32_t i = 0; i < len; i++) {
            Serial.write((char)buffer[i]); 
           }*/
          Serial.println("Recebendo audio");
-         /*File myFile = SD.open(audios+".wav", FILE_WRITE);
-         if (myFile) {
-            for(uint32_t i = 0; i < len; i++) {
-             myFile.write(buffer[i]); 
-            }
-            audios +=1;
-            myFile.close();
-            
-         }*/
+         
       }
-    }else{
-      Serial.println("TCP ERROR");
+    }
+    
+    if(wifi.releaseTCP()){ 
+      Serial.println("OK released tcp");
     }
 
-    if(wifi.releaseTCP(mux_id)){ 
-      Serial.println("OK released tcp");
-    }else{
-       Serial.println("FAIL released tcp");
-    }
+    delay(5000);
 }
 
