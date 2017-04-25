@@ -42,7 +42,7 @@ void setup(){
 
 void loop(){  
    
-    uint8_t buffer[128] = {0};
+    uint8_t buffer[100] = {0};
     static uint8_t mux_id = 0; 
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
@@ -55,6 +55,8 @@ void loop(){
         //Serial.println("BUFFER: "+str);
         
         if(str.equals("start")){  
+          SD.remove("fala.wav");
+          
           char* params = "START";
         }else if(str.equals("stop")){
           char* params = "STOP";

@@ -5,7 +5,7 @@ var fs = require("fs");
 function startServer(){
 	
 	var arrayBuffer 	 = null;
-	var arraySlicePiece  = 256;
+	var arraySlicePiece  = 100;
 	var pointerSlice 	 = 0;
 	var piecesOFChunck 	 = 0;
 	var piecesIncrement  = 0;
