@@ -30,7 +30,8 @@ function startServer(){
 	var start 			 = false;
 
 	var piecesOFChunckTotal = 0;
-	
+	var download 			= true;
+
 	fs.readFile("1.wav", function (err, data) {
 	    if (err) {
 	    	throw err;
@@ -43,43 +44,48 @@ function startServer(){
 
 	try{
 		var server = net.createServer(function(socket) {
-				var connect_log = '[Log - '+new Date().toISOString()+']Conectando no servidor.\r\n';
-				console.log(connect_log);
+				if(download){
 
-				if(!start){
-					var start_log = '[Log - '+new Date().toISOString()+']Start record audio arduino.\r\n';
-					console.log(start_log);
+					var connect_log = '[Log - '+new Date().toISOString()+']Conectando no servidor.\r\n';
+					console.log(connect_log);
 
-					start = true;
-					socket.write('start');
+					if(!start){
+						var start_log = '[Log - '+new Date().toISOString()+']Start record audio arduino.\r\n';
+						console.log(start_log);
 
-				}else if(start && piecesOFChunck > 0){
-					var chunk_log = '[Log - '+new Date().toISOString()+']Send chunk to '+piecesIncrement+'/'+piecesOFChunckTotal+' arduino.\r\n';
-					console.log(chunk_log);
+						start = true;
+						socket.write('start');
 
-					//socket.write('chunks:'+parseInt(piecesOFChunck));
-					var sliceChunck = arrayBuffer.slice(piecesIncrement*arraySlicePiece,(piecesIncrement*arraySlicePiece)+arraySlicePiece);
-					socket.write(sliceChunck);
+					}else if(start && piecesOFChunck > 0){
+						var chunk_log = '[Log - '+new Date().toISOString()+']Send chunk to '+piecesIncrement+'/'+piecesOFChunckTotal+' arduino.\r\n';
+						console.log(chunk_log);
 
-					piecesOFChunck   = parseInt(piecesOFChunck-1);
-					piecesIncrement +=1;
+						//socket.write('chunks:'+parseInt(piecesOFChunck));
+						var sliceChunck = arrayBuffer.slice(piecesIncrement*arraySlicePiece,(piecesIncrement*arraySlicePiece)+arraySlicePiece);
+						socket.write(sliceChunck);
 
-				}else{
-					var stop_log = '[Log - '+new Date().toISOString()+']Stop record , audio sent.\r\n';
-					console.log(stop_log);
+						piecesOFChunck   = parseInt(piecesOFChunck-1);
+						piecesIncrement +=1;
 
-					socket.write('stop');
-					start = false;
-					client.end();
+					}else{
+						var stop_log = '[Log - '+new Date().toISOString()+']Stop record , audio sent.\r\n';
+						console.log(stop_log);
+
+						socket.write('stop');
+						start = false;
+						download = false;
+
+						client.end();
+					}
+
+					socket.on('data', function (data){
+						console.log('Data In: ',data.toString("utf8"));
+					});
+
+					socket.on('error', function (data) {
+						console.log("Error: ",data);
+					});
 				}
-
-				socket.on('data', function (data){
-					console.log('Data In: ',data.toString("utf8"));
-				});
-
-				socket.on('error', function (data) {
-					console.log("Error: ",data);
-				});
 		});
 
 		server.listen(8090);
