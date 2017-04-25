@@ -50,7 +50,7 @@ void loop(){
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
       
       if(len >0){
-        
+        Serial.println("len:"+Str(len)); 
         String str = (char*)buffer; 
         //Serial.println("BUFFER: "+str);
         
@@ -59,6 +59,7 @@ void loop(){
         }else if(str.equals("stop")){
           char* params = "STOP";
         }else{
+           
            File myFile = SD.open("fala.wav", FILE_WRITE);
            if (myFile) {
               for(uint32_t i = 0; i < len; i++) {
