@@ -38,13 +38,12 @@ void setup(){
  if(wifi.enableMUX()){
    Serial.println("Mux habilitado");    
  }
- 
 }
-int chunks = -1;
+
 void loop(){  
    
-    uint8_t buffer[128] = {0};
-    static uint8_t mux_id = 0;
+    uint8_t buffer[4056] = {0};
+    static uint8_t mux_id = 0; 
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
       char* params = "HOST CONNECT";
