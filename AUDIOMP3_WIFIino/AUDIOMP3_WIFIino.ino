@@ -28,6 +28,8 @@ void setup(){
   }
   
  wifi.leaveAP();
+ delay(500);
+ 
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
