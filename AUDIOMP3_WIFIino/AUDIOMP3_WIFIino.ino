@@ -26,7 +26,8 @@ void setup(){
  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
- 
+  
+ wifi.leaveAP();
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    
@@ -63,7 +64,7 @@ void loop(){
            Serial.write((char)buffer[i]); 
           }*/
          Serial.println("Recebendo audio");
-         File myFile = SD.open(audios+".wav", FILE_WRITE);
+         /*File myFile = SD.open(audios+".wav", FILE_WRITE);
          if (myFile) {
             for(uint32_t i = 0; i < len; i++) {
              myFile.write(buffer[i]); 
@@ -71,7 +72,7 @@ void loop(){
             audios +=1;
             myFile.close();
             
-         }
+         }*/
       }
     }else{
       Serial.println("TCP ERROR");
