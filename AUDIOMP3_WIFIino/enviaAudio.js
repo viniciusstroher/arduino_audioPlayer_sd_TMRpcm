@@ -61,7 +61,7 @@ function startServer(){
 					}
 
 					socket.on('data', function (data){
-						console.log('Data In: ',data.toString("utf8"));
+						console.log('Data In: ',data);
 					});
 
 					socket.on('error', function (data) {
