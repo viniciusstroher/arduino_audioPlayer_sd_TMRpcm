@@ -29,6 +29,7 @@ void setup(){
  
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
+   
    Serial.println(wifi.getLocalIP().c_str());    
  }
  
@@ -77,9 +78,6 @@ void loop(){
       wifi.restart(); 
     }
 
-    
-     
-
     /*if (len > 0) {
         Serial.println("RECEIVE FROM SERVER");
         
@@ -110,7 +108,6 @@ void loop(){
     if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }else{
-       resetFunc();
        Serial.println("FAIL released tcp");
     }
 }
