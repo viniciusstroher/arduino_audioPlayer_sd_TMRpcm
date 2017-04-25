@@ -57,7 +57,6 @@ void loop(){
          
           String startString = "START RECORD AUDIO";
           Serial.println(startString);
-          wifi.send(mux_id,startString, sizeof(startString));
 
           char* params = new char[startString.length()+1];
           strncpy(params, startString.c_str(), startString.length()+1);
