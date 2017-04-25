@@ -44,18 +44,8 @@ function startServer(){
 	try{
 		var server = net.createServer(function(socket) {
 				var connect_log = '[Log - '+new Date().toISOString()+']Conectando no servidor.\r\n';
-				console.log('[Log]Connect: ',connect_log);
+				console.log(connect_log);
 
-				/*for(i=0;i<piecesOFChunck;i++){
-					console.log('chunck pointers',i*arraySlicePiece,(i*arraySlicePiece)+arraySlicePiece);
-					var sliceChunck = arrayBuffer.slice(i*arraySlicePiece,(i*arraySlicePiece)+arraySlicePiece);
-					console.log(sliceChunck);
-					
-					socket.write(sliceChunck);
-				}*/
-				
-				//var i = 0;
-				//var sliceChunck = arrayBuffer.slice(i*arraySlicePiece,(i*arraySlicePiece)+arraySlicePiece);
 				if(!start){
 					var start_log = '[Log - '+new Date().toISOString()+']Start record audio arduino.\r\n';
 					console.log(start_log);
@@ -80,7 +70,7 @@ function startServer(){
 
 					socket.write('stop');
 					start = false;
-					
+
 				}
 
 				socket.on('data', function (data){
@@ -110,3 +100,21 @@ startServer();
             myFile.close();
             
          }*/
+/*
+  /*
+        
+        String paramName = str.substring(0,str.indexOf(":"));
+        Serial.println(paramName);
+        if(paramName.equals("start")){
+          String paramValue = str.substring(str.indexOf(":")+1,-1);
+          chunks = paramValue.toInt();
+          
+          if(chunks == 0){
+            
+          }else{
+          
+          }
+          
+        }
+        
+      }*/

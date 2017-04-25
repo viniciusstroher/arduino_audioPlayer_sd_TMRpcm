@@ -71,23 +71,7 @@ void loop(){
         Serial.println(params);
         wifi.send(mux_id,(uint8_t)atoi(params), sizeof(params));
         
-        /*
-        
-        String paramName = str.substring(0,str.indexOf(":"));
-        Serial.println(paramName);
-        if(paramName.equals("start")){
-          String paramValue = str.substring(str.indexOf(":")+1,-1);
-          chunks = paramValue.toInt();
-          
-          if(chunks == 0){
-            
-          }else{
-          
-          }
-          
-        }
-        
-      }*/
+      
     }
    
 
