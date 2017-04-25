@@ -53,37 +53,25 @@ void loop(){
    
       if(len >0){
         String str = (char*)buffer;
-        if(str.equals("start")){
-         
-          String startString = "START";
-          Serial.println(startString);
-
-          char* params = new char[startString.length()+1];
-          strncpy(params, startString, startString.length()+1);
-          wifi.send(mux_id,params, sizeof(params));
+        
+        if(str.equals("start")){  
           
+          char* params = "START";
         }else if(str.equals("stop")){
          
-          String stopString = "STOP";
-          Serial.println(stopString);
-         
-          char* params = new char[stopString.length()+1];
-          strncpy(params, stopString, stopString.length()+1);
-          wifi.send(mux_id,params, sizeof(params));
-          
+          char* params = "STOP";
         }else{
+          
           for(uint32_t i = 0; i < len; i++) {
             Serial.print((char)buffer[i]);
           }
-          
-          String sendChunk = "CHUNK";
-          Serial.println(sendChunk);
-         
-          char* params = new char[sendChunk.length()+1];
-          strncpy(params, sendChunk, sendChunk.length()+1);
-          wifi.send(mux_id,params, sizeof(params));
-      
+
+          char* params = "CHUNK";
         }
+        
+        Serial.println(params);
+        wifi.send(mux_id,(uint8_t)atoi(params), sizeof(params));
+        
         /*
         
         String paramName = str.substring(0,str.indexOf(":"));
