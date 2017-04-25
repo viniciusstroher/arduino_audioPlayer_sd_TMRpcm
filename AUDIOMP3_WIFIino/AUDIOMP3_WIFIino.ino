@@ -47,7 +47,7 @@ void loop(){
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
       char* params = "HOST CONNECT";
-      uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
+      uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 50);
       
       if(len >0){
         Serial.println("len:"+String(len)); 
