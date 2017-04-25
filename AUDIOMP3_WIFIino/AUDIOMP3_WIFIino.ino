@@ -58,10 +58,19 @@ void loop(){
       Serial.print("HOST CONNECT");
       uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
       if(len >0){
-         for(uint32_t i = 0; i < len; i++) {
+         /*for(uint32_t i = 0; i < len; i++) {
            Serial.write((char)buffer[i]); 
-          }
-        
+          }*/
+         Serial.println("Recebendo audio");
+         File myFile = SD.open(audios+".wav", FILE_WRITE);
+         if (myFile) {
+            for(uint32_t i = 0; i < len; i++) {
+             myFile.write(buffer[i]); 
+            }
+            audios +=1;
+            myFile.close();
+            
+         }
       }
     }else{
       Serial.println("TCP ERROR");

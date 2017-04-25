@@ -9,22 +9,25 @@ function startServer(){
 				console.log(connect_log);
 				socket.write(connect_log);
 				
+				fs.readFile("1.wav", function (err, data) {
+				    if (err) {
+				    	throw err;
+				    }
+				    console.log('Enviando audio. ',data.length);
+				    client.write(data);
+				});
+				
 				socket.on('data', function (data) {
 					console.log("OK",data);
 
-						/*fs.readFile("1.wav", function (err, data) {
-						    if (err) {
-						    	throw err;
-						    }
-						    console.log('Enviando audio. ',data.length);
-						    client.write('1');
-						});*/
+						
 				});
 		});
-	server.listen(8090);
-		}catch(ex){
-			console.log("RESTART SERVER");
-			startServer();
-		}
+		server.listen(8090);
+
+	}catch(ex){
+		console.log("RESTART SERVER");
+		startServer();
 	}
+}
 startServer();
