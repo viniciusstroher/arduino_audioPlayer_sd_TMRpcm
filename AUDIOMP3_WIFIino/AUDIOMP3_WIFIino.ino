@@ -50,7 +50,7 @@ void loop(){
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
       
       if(len >0){
-        Serial.println("len:"+Str(len)); 
+        Serial.println("len:"+String(len)); 
         String str = (char*)buffer; 
         //Serial.println("BUFFER: "+str);
         
