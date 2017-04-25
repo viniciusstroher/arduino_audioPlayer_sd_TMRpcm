@@ -42,7 +42,7 @@ void setup(){
 
 void loop(){  
    
-    uint8_t buffer[4056] = {0};
+    uint8_t buffer[128] = {0};
     static uint8_t mux_id = 0; 
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
@@ -52,7 +52,7 @@ void loop(){
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 10000);
       if(len >0){
         
-        String str = (char*)buffer;
+        String str = (char*)buffer; 
         Serial.println("BUFFER: "+str);
         
         if(str.equals("start")){  
