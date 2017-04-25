@@ -54,7 +54,7 @@ void loop(){
       if(len >0){
         
         String str = (char*)buffer;
-        Serial.println("BUFFER: "+str.c_str());
+        Serial.println("BUFFER: "+str);
         
         if(str.equals("start")){  
           char* params = "START";

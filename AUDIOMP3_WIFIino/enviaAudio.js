@@ -29,13 +29,16 @@ function startServer(){
 	var piecesIncrement  = 0;
 	var start 			 = false;
 
+	var piecesOFChunckTotal = 0;
+	
 	fs.readFile("1.wav", function (err, data) {
 	    if (err) {
 	    	throw err;
 	    }
 
-	    arrayBuffer 	= data;
-	    piecesOFChunck  = Math.ceil(arrayBuffer.length/arraySlicePiece);
+	    arrayBuffer 		 = data;
+	    piecesOFChunck  	 = Math.ceil(arrayBuffer.length/arraySlicePiece);
+	    piecesOFChunckTotal  = Math.ceil(arrayBuffer.length/arraySlicePiece);
 	});
 
 	try{
@@ -54,10 +57,16 @@ function startServer(){
 				//var i = 0;
 				//var sliceChunck = arrayBuffer.slice(i*arraySlicePiece,(i*arraySlicePiece)+arraySlicePiece);
 				if(!start){
+					var start_log = '[Log - '+new Date().toISOString()+']Start record audio arduino.\r\n';
+					console.log(start_log);
+
 					start = true;
 					socket.write('start');
+
 				}else if(start && piecesOFChunck > 0){
-					
+					var chunk_log = '[Log - '+new Date().toISOString()+']Send chunk to '+piecesIncrement+'/'+piecesOFChunckTotal+' arduino.\r\n';
+					console.log(chunk_log);
+
 					//socket.write('chunks:'+parseInt(piecesOFChunck));
 					var sliceChunck = arrayBuffer.slice(piecesIncrement*arraySlicePiece,(piecesIncrement*arraySlicePiece)+arraySlicePiece);
 					socket.write(sliceChunck);
@@ -66,11 +75,12 @@ function startServer(){
 					piecesIncrement +=1;
 
 				}else{
-					console.log('PLAY AUDIO');
-					
+					var stop_log = '[Log - '+new Date().toISOString()+']Stop record , audio sent.\r\n';
+					console.log(stop_log);
+
 					socket.write('stop');
 					start = false;
-
+					
 				}
 
 				socket.on('data', function (data){
