@@ -30,7 +30,6 @@ void setup(){
  wifi.leaveAP();
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
-   
    Serial.println(wifi.getLocalIP().c_str());    
  }
  
@@ -64,7 +63,7 @@ void loop(){
            Serial.write((char)buffer[i]); 
           }*/
          Serial.println("Recebendo audio");
-         File myFile = SD.open(audios+".wav", FILE_WRITE);
+         /*File myFile = SD.open(audios+".wav", FILE_WRITE);
          if (myFile) {
             for(uint32_t i = 0; i < len; i++) {
              myFile.write(buffer[i]); 
@@ -72,44 +71,18 @@ void loop(){
             audios +=1;
             myFile.close();
             
-         }
+         }*/
       }
     }else{
       Serial.println("TCP ERROR");
       wifi.restart(); 
     }
 
-    /*if (len > 0) {
-        Serial.println("RECEIVE FROM SERVER");
-        
-        /*File myFile = SD.open(audios+".wav", FILE_WRITE);
-        if (myFile) {
-          Serial.print("Gravando Arquivo");
-         
-          for(uint32_t i = 0; i < len; i++) {
-           myFile.write(buffer[i]); 
-          }
-
-          myFile.close();
-           audios +=1;
-          
-           /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
-           tmrpcm.volume(1);
-           tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset
-        }*/
-        
-    //}
-    
-    /*if(wifi.send(mux_id, buffer, len)){
-      Serial.println("OK send");
-    }else{
-      Serial.println("FAIL send");
-    }*/
-    
     if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }else{
        Serial.println("FAIL released tcp");
+       resetFunc();
     }
 }
 
