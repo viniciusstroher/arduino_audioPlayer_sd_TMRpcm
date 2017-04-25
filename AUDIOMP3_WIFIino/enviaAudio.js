@@ -2,23 +2,29 @@ var net = require('net');
 var client = new net.Socket();
 var fs = require("fs");
 
-client.connect(8090, '192.168.0.43', function() {
-	console.log('Connected');
-	client.write('12222');
+function startServer(){
+	try{
+		var server = net.createServer(function(socket) {
+				var connect_log = '[Log - '+new Date().toISOString()+']Conectando no servidor.\r\n';
+				console.log(connect_log);
+				socket.write(connect_log);
+				
+				socket.on('data', function (data) {
+					console.log("OK",data);
 
-	/*fs.readFile("1.wav", function (err, data) {
-	    if (err) {
-	    	throw err;
-	    }
-	    console.log('Enviando audio. ',data.length);
-	    client.write('1');
-	});*/
-});
-
-client.on('data', function(data) {
-	console.log('Received: ' + data.toString('utf8'));
-});
-
-client.on('close', function() {
-	console.log('Connection closed');
-});
+						/*fs.readFile("1.wav", function (err, data) {
+						    if (err) {
+						    	throw err;
+						    }
+						    console.log('Enviando audio. ',data.length);
+						    client.write('1');
+						});*/
+				});
+		});
+	server.listen(8090);
+		}catch(ex){
+			console.log("RESTART SERVER");
+			startServer();
+		}
+	}
+startServer();

@@ -22,10 +22,11 @@ void(* resetFunc) (void) = 0;
 void setup(){ 
  mySerial.begin(9600);
  Serial.begin(9600);
+ 
  while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-
+ wifi.restart();
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    Serial.println(wifi.getLocalIP().c_str());    
@@ -36,10 +37,6 @@ void setup(){
  }else{
     Serial.println("Mux off");    
  }
- 
- 
- wifi.startTCPServer(8090);
- wifi.setTCPServerTimeout(10);
 
  if (!SD.begin(SD_ChipSelectPin)) {
    Serial.println("SD CARD ERROR !");
@@ -49,17 +46,35 @@ void setup(){
  Serial.println("setup ok!");
 }
 
+static uint8_t mux_id = 0;
+#define HOST_NAME   "192.168.0.56"
+#define HOST_PORT   (8090)
 
 void loop(){  
     uint8_t buffer[128] = {0};
     uint8_t mux_id;
     
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
-   
-    if (len > 0) {
+    if (wifi.createTCP(mux_id, HOST_NAME, HOST_PORT)) {
+      Serial.print("HOST CONNECT");
+      uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);
+      if(len >0){
+         for(uint32_t i = 0; i < len; i++) {
+           Serial.write((char)buffer[i]); 
+          }
+        
+      }
+    }else{
+      Serial.println("TCP ERROR");
+      wifi.restart(); 
+    }
+
+    
+     
+
+    /*if (len > 0) {
         Serial.println("RECEIVE FROM SERVER");
         
-        File myFile = SD.open(audios+".wav", FILE_WRITE);
+        /*File myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
           Serial.print("Gravando Arquivo");
          
@@ -72,22 +87,22 @@ void loop(){
           
            /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
            tmrpcm.volume(1);
-           tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
-        }
+           tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset
+        }*/
         
-    }
+    //}
     
-    if(wifi.send(mux_id, buffer, len)){
+    /*if(wifi.send(mux_id, buffer, len)){
       Serial.println("OK send");
     }else{
       Serial.println("FAIL send");
-    }
-     
-    if(wifi.releaseTCP(mux_id)){
+    }*/
+    
+    if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }else{
+       wifi.restart(); 
        Serial.println("FAIL released tcp");
-       wifi.restart();
     }
 }
 
