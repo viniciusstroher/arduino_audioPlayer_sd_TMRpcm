@@ -15,8 +15,6 @@
 SoftwareSerial mySerial(2, 3); /* RX:D3, TX:D2 */
 ESP8266 wifi(mySerial);
 
-uint8_t buffer[128] = {0};
-uint8_t mux_id = 0;
 int audios = 1;
 
 void setup(){ 
@@ -26,31 +24,36 @@ void setup(){
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
- if (!SD.begin(SD_ChipSelectPin)) {
-   Serial.println("SD CARD ERROR !");
-   return;
- }
+
   
  wifi.setOprToStationSoftAP();
  if(wifi.joinAP(SSID, PASSWORD)){
    
    Serial.println(wifi.getLocalIP().c_str());    
-  
-   wifi.enableMUX();
-   wifi.startTCPServer(8090);
-   wifi.setTCPServerTimeout(10);
+
    
  }
  
+ wifi.enableMUX();
+ wifi.startTCPServer(8090);
+ wifi.setTCPServerTimeout(10);
  
+ if (!SD.begin(SD_ChipSelectPin)) {
+   Serial.println("SD CARD ERROR !");
+   return;
+ }
   
  Serial.println("setup ok!");
 }
 
 void loop(){  
-
-    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 1000);    
+    uint8_t buffer[128] = {0};
+    uint8_t mux_id;
+    
+    uint32_t len = wifi.recv(&mux_id, buffer, sizeof(buffer), 100);   
+    Serial.println(len); 
     if (len > 0) {
+        Serial.println("RECEIVE FROM SERVER");
         
         File myFile = SD.open(audios+".wav", FILE_WRITE);
         if (myFile) {
@@ -61,17 +64,16 @@ void loop(){
           }
 
           myFile.close();
-          wifi.send(mux_id, "ENVIADO_SALVO", sizeof(17));
-          audios +=1;
+           audios +=1;
           
            /*tmrpcm.speakerPin = 9; //11 on Mega, 9 on Uno, Nano, etc
            tmrpcm.volume(1);
            tmrpcm.play("1.wav"); //the sound file "1" will play each time the arduino powers up, or is reset*/
         }
         
-    }else{
-      wifi.send(mux_id, "ENVIADO", sizeof(10));
     }
+    
+    wifi.send(mux_id, buffer, sizeof(buffer));
     wifi.releaseTCP(mux_id);
 }
 
