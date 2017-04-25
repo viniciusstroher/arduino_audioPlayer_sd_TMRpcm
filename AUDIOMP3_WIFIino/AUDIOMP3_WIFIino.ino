@@ -47,13 +47,13 @@ void loop(){
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
       char* params = "HOST CONNECT";
-      Serial.println(params);
+      //Serial.println(params);
       
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
       if(len >0){
         
         String str = (char*)buffer; 
-        Serial.println("BUFFER: "+str);
+        //Serial.println("BUFFER: "+str);
         
         if(str.equals("start")){  
           char* params = "START";
