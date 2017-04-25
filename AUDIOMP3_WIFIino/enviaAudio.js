@@ -70,7 +70,7 @@ function startServer(){
 
 					socket.write('stop');
 					start = false;
-
+					client.end();
 				}
 
 				socket.on('data', function (data){
