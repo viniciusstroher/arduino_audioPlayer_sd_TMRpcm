@@ -23,7 +23,7 @@ function toArrayBuffer(buf) {
 function startServer(){
 	
 	var arrayBuffer 	 = null;
-	var arraySlicePiece  = 4056;
+	var arraySlicePiece  = 128;
 	var pointerSlice 	 = 0;
 	var piecesOFChunck 	 = 0;
 	var piecesIncrement  = 0;
