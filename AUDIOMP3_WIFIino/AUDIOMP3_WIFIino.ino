@@ -54,14 +54,36 @@ void loop(){
       if(len >0){
         String str = (char*)buffer;
         if(str.equals("start")){
-          Serial.println("START RECORD AUDIO");
+         
+          String startString = "START RECORD AUDIO";
+          Serial.println(startString);
+          wifi.send(mux_id,startString, sizeof(startString));
+
+          char* params = new char[startString.length()+1];
+          strncpy(params, startString.c_str(), startString.length()+1);
+          wifi.send(mux_id,params, sizeof(params));
+          
         }else if(str.equals("stop")){
-          Serial.println("STOP RECORD AUDIO");
+         
+          String stopString = "STOP RECORD AUDIO";
+          Serial.println(startString);
+         
+          char* params = new char[stopString.length()+1];
+          strncpy(params, stopString.c_str(), stopString.length()+1);
+          wifi.send(mux_id,params, sizeof(params));
+          
         }else{
           for(uint32_t i = 0; i < len; i++) {
             Serial.print((char)buffer[i]);
           }
-          Serial.println();
+          
+          String sendChunk = "CHUNK ENVIADO";
+          Serial.println(sendChunk);
+         
+          char* params = new char[sendChunk.length()+1];
+          strncpy(params, sendChunk.c_str(), sendChunk.length()+1);
+          wifi.send(mux_id,params, sizeof(params));
+      
         }
         /*
         
@@ -82,14 +104,15 @@ void loop(){
       }*/
     }
    
-    if(wifi.send(mux_id,buffer, sizeof(buffer))){
+   /* if(wifi.send(mux_id,buffer, sizeof(buffer))){
       Serial.println("Enviando Status");
-    }
+    }*/
     
     if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }
 
     //delay(5000);
+  }
 }
 
