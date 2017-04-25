@@ -50,11 +50,12 @@ void loop(){
       uint32_t len  = wifi.recv(buffer, sizeof(buffer), 10000);
       
       if(len >0){
+         Serial.println("Recebendo audio");
          for(uint32_t i = 0; i < len; i++) {
            Serial.write((char)buffer[i]); 
           }
          Serial.println();
-         Serial.println("Recebendo audio");
+         
          
       }
     }
