@@ -78,7 +78,7 @@ void loop(){
         }
         
         Serial.println(params);
-        wifi.send(mux_id,(uint8_t)atoi(params), sizeof(params));
+        //wifi.send(mux_id,(uint8_t)atoi(params), sizeof(params));
     }
    
     if(wifi.releaseTCP(mux_id)){ 
