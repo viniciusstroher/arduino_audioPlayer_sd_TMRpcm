@@ -22,7 +22,7 @@ function toArrayBuffer(buf) {
 
 function startServer(){
 	var arrayBuffer 	 = null;
-	var arraySlicePiece  = 1000;
+	var arraySlicePiece  = 2048;
 	var pointerSlice 	 = 0;
 	var piecesOFChunck 	 = 0;
 
