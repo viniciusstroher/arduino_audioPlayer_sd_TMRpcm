@@ -111,6 +111,7 @@ void loop(){
       Serial.println("OK released tcp");
     }else{
        wifi.restart(); 
+       resetFunc();
        Serial.println("FAIL released tcp");
     }
 }
