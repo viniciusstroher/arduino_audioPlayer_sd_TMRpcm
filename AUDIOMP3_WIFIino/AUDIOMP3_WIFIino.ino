@@ -47,9 +47,8 @@ void loop(){
     
     if (wifi.createTCP(mux_id,HOST_NAME, HOST_PORT)) {
       char* params = "HOST CONNECT";
-      //Serial.println(params);
-      
       uint32_t len  = wifi.recv(mux_id,buffer, sizeof(buffer), 100);
+      
       if(len >0){
         
         String str = (char*)buffer; 
@@ -60,9 +59,13 @@ void loop(){
         }else if(str.equals("stop")){
           char* params = "STOP";
         }else{
-          for(uint32_t i = 0; i < len; i++) {
-            Serial.print((char)buffer[i]);
-          }
+           File myFile = SD.open("fala.wav", FILE_WRITE);
+           if (myFile) {
+              for(uint32_t i = 0; i < len; i++) {
+               myFile.write(buffer[i]); 
+              }
+              myFile.close();
+           }
 
           char* params = "CHUNK";
         }
