@@ -56,13 +56,10 @@ void loop(){
         String str = (char*)buffer;
         
         if(str.equals("start")){  
-          
           char* params = "START";
         }else if(str.equals("stop")){
-         
           char* params = "STOP";
         }else{
-          
           for(uint32_t i = 0; i < len; i++) {
             Serial.print((char)buffer[i]);
           }
@@ -92,10 +89,7 @@ void loop(){
       }*/
     }
    
-   /* if(wifi.send(mux_id,buffer, sizeof(buffer))){
-      Serial.println("Enviando Status");
-    }*/
-    
+
     if(wifi.releaseTCP(mux_id)){ 
       Serial.println("OK released tcp");
     }
